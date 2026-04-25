@@ -14,11 +14,12 @@ local pass = function() end
 CreateFrame'Frame':SetScript('OnUpdate', function()
 	local target = UnitName'target'
 	if target then
-		unit, dead, lost = target, UnitIsDead'target', false
+		_, unit = UnitExists'target'
+		dead, lost = UnitIsDead'target', false
 	elseif unit then
 		local _PlaySound, _UIErrorsFrame_OnEvent = PlaySound, UIErrorsFrame_OnEvent
 		PlaySound, UIErrorsFrame_OnEvent = lost and PlaySound or pass, pass
-		TargetByName(unit, true)
+		TargetUnit(unit)
 		PlaySound, UIErrorsFrame_OnEvent = _PlaySound, _UIErrorsFrame_OnEvent
 		if UnitExists'target' then
 			if not (lost or (not dead and UnitIsDead'target' and feigning())) then
